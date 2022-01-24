@@ -1,12 +1,14 @@
 import './App.css';
 import React,{useState,useEffect} from 'react';
 import Icons from './components/Icons'
+import Message from './components/Message';
 const itemArray=new Array(9).fill('empty')
 function App() {
   const [isCross,setIsCross]=useState(true);
   const [winMessage,setWinMessage]=useState('');
   const [results,setResults]=useState([]);
   const [disp,setDisp]=useState('none');
+  const [msgg,setMsgg]=useState({bg:"",msg:''})
   
   useEffect(() => {
     if(localStorage.getItem('results'))
@@ -14,6 +16,10 @@ function App() {
       let data=localStorage.getItem('results');
       let parsedData=JSON.parse(data)
       setResults(parsedData)
+      if(parsedData[4]%2===0)
+      {
+        setIsCross(false)
+      }
      
     }
     else
@@ -57,9 +63,13 @@ function App() {
   const displayMessage=()=>{
    if(winMessage)
    {
-    alert(`${winMessage}`)
+    // alert(`${winMessage}`)
+    setMsgg({bg:'black',msg:winMessage})
+    setTimeout(() => {
+      setMsgg({bg:'',msg:''})
+      window.location.reload();
+    }, 3000);
     itemArray.fill('empty',0,9)
-    window.location.reload();
    }
   }
 
@@ -172,7 +182,7 @@ function App() {
   return (
    <>
        <h2 style={{textAlign:'center',background:"black",color:"white"}}>TicTacToe Game</h2>
-       
+       <Message bg={msgg.bg} msg={msgg.msg} />
        <div id='results' style={{position:'absolute',zIndex:1,display:`${disp}`,width:'100vw',height:'100vh',alignItems:'center',justifyContent:'center'}}>
          <div style={{height:'40vh',width:'80vw',background:'#45dd85ef',padding:'15px',borderRadius:'10px'}}>
            <span style={{fontSize:'40px',float:'right',position:'relative',top:'-40px',left:'20px',background:'red',borderRadius:'50%',padding:'4px 8px',cursor:'pointer'}} onClick={handleResults}>X</span>
