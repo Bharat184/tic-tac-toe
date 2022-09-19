@@ -41,9 +41,8 @@ table, td, th {
   border: 2px solid black;
   text-align: center;
   padding: 5px 0px;
-  color: rgba(255, 255, 255, 0.938);
+  color: rgba(231, 210, 14, 0.938);
   font-weight: 700;
-  background: black;
 }
 
 table {
